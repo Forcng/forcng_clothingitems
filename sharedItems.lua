@@ -22,17 +22,16 @@ Config.Components = {
     ['shirt']      = 11,
 }
 
-Config.WearableItems = {
+Config.Gear = {
     {
         uniqueItem = 'clothing_mask', 
         sex        = 'male',
-        category   = 'shoes',
+        category   = 'hair',
         model      = 4,
         variant    = 2,
-        isAccessory = false,
+        isAccessory = false,           -- false = component, true = prop
         dict       = 'nmt_3_rcm-10',
         clip       = 'cs_nigel_dual-10',
         duration   = 1200,
     },
 }
-
