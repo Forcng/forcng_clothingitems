@@ -22,7 +22,7 @@ Config.Components = {
     ['shirt']      = 11,
 }
 
-Config.Gear = {
+Config.WearableItems = {
     {
         uniqueItem = 'clothing_mask', 
         sex        = 'male',
@@ -35,3 +35,4 @@ Config.Gear = {
         duration   = 1200,
     },
 }
+
