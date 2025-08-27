@@ -1,12 +1,13 @@
 ESX = exports["es_extended"]:getSharedObject()
 
-for _, gear in pairs(Config.Gear) do
+for _, gear in pairs(Config.WearableItems) do
     ESX.RegisterUsableItem(gear.uniqueItem, function(source)
         local xPlayer = ESX.GetPlayerFromId(source)
         if xPlayer then
-            TriggerClientEvent('forcng:applyItem', source, gear)
+            TriggerClientEvent('forcng:applyItem', source, WearableItems)
         end
     end)
 
-    print("usable item:", gear.uniqueItem)
+    print("usable item:", WearableItems.uniqueItem)
 end
+
