@@ -1,9 +1,9 @@
 local Applied = {}
 
-RegisterNetEvent('forcng:applyItem', function(WearableItems)
+RegisterNetEvent('forcng:applyItem', function(gear)
     local ped = PlayerPedId()
-    local category = WearableItems.category
-    local isAccessory = WearableItems.isAccessory
+    local category = gear.category
+    local isAccessory = gear.isAccessory
 
     local slotId = isAccessory and Config.Props[category] or Config.Components[category]
     if slotId == nil then
@@ -12,15 +12,15 @@ RegisterNetEvent('forcng:applyItem', function(WearableItems)
     end
 
     local function playAnim()
-        if WearableItems.dict and WearableItems.clip and WearableItems.duration then
-            RequestAnimDict(WearableItems.dict)
+        if gear.dict and gear.clip and gear.duration then
+            RequestAnimDict(gear.dict)
             local tries = 0
-            while not HasAnimDictLoaded(WearableItems.dict) and tries < 50 do
+            while not HasAnimDictLoaded(gear.dict) and tries < 50 do
                 Wait(50); tries += 1
             end
-            if HasAnimDictLoaded(WearableItems.dict) then
-                TaskPlayAnim(ped, WearableItems.dict, WearableItems.clip, 3.0, 3.0, WearableItems.duration, 49, 0, false, false, false)
-                Wait(WearableItems.duration)
+            if HasAnimDictLoaded(gear.dict) then
+                TaskPlayAnim(ped, gear.dict, gear.clip, 3.0, 3.0, gear.duration, 49, 0, false, false, false)
+                Wait(gear.duration)
                 ClearPedTasks(ped)
             end
         end
@@ -44,21 +44,21 @@ RegisterNetEvent('forcng:applyItem', function(WearableItems)
                 return
             end
             playAnim()
-            SetPedPropIndex(ped, slotId, WearableItems.model, WearableItems.variant or 0, true)
-            current.newDrawable, current.newTexture = WearableItems.model, WearableItems.variant or 0
+            SetPedPropIndex(ped, slotId, gear.model, gear.variant or 0, true)
+            current.newDrawable, current.newTexture = gear.model, gear.variant or 0
             return
         else
             playAnim()
             local prevDrawable = curDrawable
             local prevTexture  = curTexture
-            SetPedPropIndex(ped, slotId, WearableItems.model, WearableItems.variant or 0, true)
+            SetPedPropIndex(ped, slotId, gear.model, gear.variant or 0, true)
             Applied[category] = {
                 isAccessory = true,
                 slotId = slotId,
                 prevDrawable = prevDrawable,
                 prevTexture  = prevTexture,
-                newDrawable  = WearableItems.model,
-                newTexture   = WearableItems.variant or 0
+                newDrawable  = gear.model,
+                newTexture   = gear.variant or 0
             }
             return
         end
@@ -77,24 +77,23 @@ RegisterNetEvent('forcng:applyItem', function(WearableItems)
                 return
             end
             playAnim()
-            SetPedComponentVariation(ped, slotId, WearableItems.model, WearableItems.variant or 0, 2)
-            current.newDrawable, current.newTexture = WearableItems.model, WearableItems.variant or 0
+            SetPedComponentVariation(ped, slotId, gear.model, gear.variant or 0, 2)
+            current.newDrawable, current.newTexture = gear.model, gear.variant or 0
             return
         else
             playAnim()
             local prevDrawable = curDrawable
             local prevTexture  = curTexture
-            SetPedComponentVariation(ped, slotId, WearableItems.model, WearableItems.variant or 0, 2)
+            SetPedComponentVariation(ped, slotId, gear.model, gear.variant or 0, 2)
             Applied[category] = {
                 isAccessory = false,
                 slotId = slotId,
                 prevDrawable = prevDrawable,
                 prevTexture  = prevTexture,
-                newDrawable  = WearableItems.model,
-                newTexture   = WearableItems.variant or 0
+                newDrawable  = gear.model,
+                newTexture   = gear.variant or 0
             }
             return
         end
     end
 end)
-
